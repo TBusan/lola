@@ -21,21 +21,21 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
   import { defineComponent } from 'vue'
 
   export default defineComponent({
     name: 'game-home',
     computed: {
-      fields(): any {
+      fields() {
         return this.$store.getters.settingFields
       },
-      settingsOpen(): boolean {
+      settingsOpen() {
         return this.$store.state.settingsLevel.open
       }
     },
     methods: {
-      saveField (name: string, event: any) {
+      saveField (name, event) {
         this.$nextTick(() => {
           this.$store.commit('SET_SETTING_FIELD_VALUE', {name, value: event.target.checked})
         })

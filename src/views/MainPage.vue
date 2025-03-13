@@ -36,13 +36,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import {defineComponent} from "vue"
   import '../styles/main_page.sass'
 
   export default defineComponent({
     methods: {
-      setCurrenPage(page: string) {
+      setCurrenPage(page) {
         this.$store.commit('SET_PAGE', page)
       },
       play() {

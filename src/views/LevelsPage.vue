@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import {defineComponent} from "vue"
   import '../styles/levels_page.sass'
 
@@ -38,7 +38,7 @@
       })
     },
     methods: {
-      setLevel(number: number) {
+      setLevel(number) {
         this.$store.commit('SET_LEVEL', number)
         this.$store.commit('SET_PAGE', 'LevelPage')
       },

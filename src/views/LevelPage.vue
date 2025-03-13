@@ -59,7 +59,7 @@
 }
 </style>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import Game from '@/models/Game'
 import TopBar from '@/views/gui/topbar/TopBar.vue'
@@ -72,7 +72,7 @@ import MobileJoystick from "@/views/gui/MobileJoystick.vue"
 
 export default defineComponent({
   name: 'game-level',
-  mounted (): void {
+  mounted () {
     this.$nextTick(() => {
       const game = new Game()
       game.init()

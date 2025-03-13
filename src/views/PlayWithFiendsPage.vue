@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import {defineComponent} from "vue"
 import '../styles/play_with_friends_page.sass'
 import { Helpers } from '@/models/Helpers'

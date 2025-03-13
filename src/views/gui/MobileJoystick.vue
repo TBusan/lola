@@ -84,7 +84,7 @@
     }
 </style>
 
-<script lang="ts">
+<script>
   import { defineComponent } from 'vue'
   import * as nipples from 'nipplejs'
   import ControllerJoystick from '@/models/playerSelf/ControllerJoystick'
@@ -120,7 +120,7 @@
           controller.setJumpButton()
         })
       },
-      initMove(joystick: nipples.JoystickManager, controller: ControllerJoystick) {
+      initMove(joystick, controller) {
         joystick.on('move', (evt, data) => {
           if (typeof data.direction == 'undefined') {
             return false

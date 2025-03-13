@@ -2,7 +2,7 @@
   <component :is="currentPage"></component>
 </template>
 
-<script lang="ts">
+<script >
   import { defineComponent } from 'vue'
   import LevelsPage from "@/views/LevelsPage.vue"
   import PlayWithFiendsPage from "@/views/PlayWithFiendsPage.vue"
