@@ -1,6 +1,12 @@
 export default class Canvas {
     static setCanvas() {
-        const canvas = document.getElementById('canvas') as HTMLCanvasElement
+        const element = document.getElementById('canvas')
+        
+        if (!element || !(element instanceof HTMLCanvasElement)) {
+            throw new Error('Canvas element not found or is not a canvas element')
+        }
+        
+        const canvas = element
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
 

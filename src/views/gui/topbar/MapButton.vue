@@ -12,12 +12,12 @@
     }
 </style>
 
-<script>
-  export default {
-    methods: {
-      open() {
-        this.$store.commit('MAP_TOGGLE')
-      }
-    }
-  }
+<script setup>
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+function open() {
+  store.commit('MAP_TOGGLE')
+}
 </script>

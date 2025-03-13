@@ -1,5 +1,5 @@
 <template>
-    <div id="menu" class="modal no_focus_game" v-show="this.$store.state.level.isMenuOpen">
+    <div id="menu" class="modal no_focus_game" v-show="store.state.level.isMenuOpen">
         <div class="container">
             <div class="content">
                 <div class="title margin_bottom">Menu</div>
@@ -21,17 +21,16 @@
     </div>
 </template>
 
-<script>
-  import { defineComponent } from 'vue'
+<script setup>
+import { useStore } from 'vuex'
 
-  export default defineComponent({
-    methods: {
-      closeMenu() {
-        this.$store.commit('SET_OPEN_MENU', false)
-      },
-      openSettings() {
-        this.$store.commit('SET_SETTINGS_OPEN', true)
-      }
-    }
-  })
+const store = useStore()
+
+function closeMenu() {
+  store.commit('SET_OPEN_MENU', false)
+}
+
+function openSettings() {
+  store.commit('SET_SETTINGS_OPEN', true)
+}
 </script>

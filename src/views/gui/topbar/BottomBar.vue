@@ -4,15 +4,13 @@
   </div>
 </template>
 
-<script>
-import MapButton from '@/views/gui/topbar/MapButton'
+<script setup>
+import MapButton from '@/views/gui/topbar/MapButton.vue'
+import { useStore } from 'vuex'
 
-export default {
-  components: { MapButton },
-  methods: {
-    openMenu() {
-      this.$store.commit('SET_OPEN_MENU', true)
-    }
-  }
+const store = useStore()
+
+function openMenu() {
+  store.commit('SET_OPEN_MENU', true)
 }
 </script>

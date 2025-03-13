@@ -36,19 +36,18 @@
   </div>
 </template>
 
-<script>
-  import {defineComponent} from "vue"
-  import '../styles/main_page.sass'
+<script setup>
+import '../styles/main_page.sass'
+import { useStore } from 'vuex'
 
-  export default defineComponent({
-    methods: {
-      setCurrenPage(page) {
-        this.$store.commit('SET_PAGE', page)
-      },
-      play() {
-        this.$store.commit('SET_PASSWORD', null)
-        this.$store.commit('SET_PAGE', 'LevelsPage')
-      }
-    }
-  })
+const store = useStore()
+
+function setCurrenPage(page) {
+  store.commit('SET_PAGE', page)
+}
+
+function play() {
+  store.commit('SET_PASSWORD', null)
+  store.commit('SET_PAGE', 'LevelsPage')
+}
 </script>

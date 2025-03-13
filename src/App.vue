@@ -2,26 +2,15 @@
   <component :is="currentPage"></component>
 </template>
 
-<script >
-  import { defineComponent } from 'vue'
-  import LevelsPage from "@/views/LevelsPage.vue"
-  import PlayWithFiendsPage from "@/views/PlayWithFiendsPage.vue"
-  import LevelPage from "@/views/LevelPage.vue"
-  import MainPage from "@/views/MainPage.vue"
-  import FinishPage from "@/views/FinishPage.vue"
+<script setup>
+import { computed } from 'vue'
+import LevelsPage from "@/views/LevelsPage.vue"
+import PlayWithFiendsPage from "@/views/PlayWithFiendsPage.vue"
+import LevelPage from "@/views/LevelPage.vue"
+import MainPage from "@/views/MainPage.vue"
+import FinishPage from "@/views/FinishPage.vue"
+import { useStore } from 'vuex'
 
-  export default defineComponent({
-    computed: {
-      currentPage() {
-        return this.$store.state.currentPage
-      }
-    },
-    components: {
-      LevelsPage,
-      MainPage,
-      LevelPage,
-      FinishPage,
-      PlayWithFiendsPage
-    }
-  })
+const store = useStore()
+const currentPage = computed(() => store.state.currentPage)
 </script>

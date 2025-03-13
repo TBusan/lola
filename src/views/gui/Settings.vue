@@ -5,7 +5,7 @@
                 <div class="title margin_bottom">Settings</div>
 
                 <ul class="list">
-                        <li v-for="(field, index) in this.fields" :key="index">
+                        <li v-for="(field, index) in fields" :key="index">
                             <label>
                             <input type="checkbox" @change="saveField(field.name, $event)"
                                           :checked="field.value"> {{ field.name }}
@@ -21,35 +21,27 @@
     </div>
 </template>
 
-<script>
-  import { defineComponent } from 'vue'
+<script setup>
+import { computed, nextTick, ref } from 'vue'
+import { useStore } from 'vuex'
 
-  export default defineComponent({
-    name: 'game-home',
-    computed: {
-      fields() {
-        return this.$store.getters.settingFields
-      },
-      settingsOpen() {
-        return this.$store.state.settingsLevel.open
-      }
-    },
-    methods: {
-      saveField (name, event) {
-        this.$nextTick(() => {
-          this.$store.commit('SET_SETTING_FIELD_VALUE', {name, value: event.target.checked})
-        })
+defineOptions({
+  name: 'GameSettings'
+})
 
+const store = useStore()
+const soundEnable = ref(true)
 
-      },
-      close () {
-        this.$store.commit('SET_SETTINGS_OPEN', false)
-      }
-    },
-    data: function () {
-      return {
-        soundEnable: true
-      }
-    }
+const fields = computed(() => store.getters.settingFields)
+const settingsOpen = computed(() => store.state.settingsLevel.open)
+
+function saveField(name, event) {
+  nextTick(() => {
+    store.commit('SET_SETTING_FIELD_VALUE', {name, value: event.target.checked})
   })
+}
+
+function close() {
+  store.commit('SET_SETTINGS_OPEN', false)
+}
 </script>

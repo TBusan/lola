@@ -8,7 +8,7 @@
           <button v-if="savepointId !== null" class="back" @click="backToSavepoint"></button>
         </div>
         <div class="child" style="text-align: right">
-          <span class="child" id="fps_counter" v-show="this.showFps"></span>
+          <span class="child" id="fps_counter" v-show="showFps"></span>
         </div>
       </div>
     </div>
@@ -24,37 +24,33 @@
 }
 </style>
 
-<script>
-  import { Settings } from '@/models/storage/Settings'
-  export default {
-    mounted () {
-      this.showFps = Settings.getValueByName('show_fps')
+<script setup>
+import { Settings } from '@/models/storage/Settings'
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
 
-      this.$store.subscribe(mutation => {
-        if (mutation.type === 'SET_SETTING_FIELD_VALUE') {
-          if (mutation.payload.name === 'show_fps') {
-            this.showFps = mutation.payload.value
-          }
-        }
-      })
-    },
-    methods: {
-      openMenu() {
-        this.$store.commit('SET_OPEN_MENU', true)
-      },
-      backToSavepoint() {
-        this.$store.commit('SET_BACK_TO_SAVEPOINT')
-      }
-    },
-    computed: {
-      savepointId() {
-        return this.$store.state.level.savepointId
-      }
-    },
-    data: function () {
-      return {
-        showFps: false
+const store = useStore()
+const showFps = ref(false)
+
+onMounted(() => {
+  showFps.value = Settings.getValueByName('show_fps')
+
+  store.subscribe(mutation => {
+    if (mutation.type === 'SET_SETTING_FIELD_VALUE') {
+      if (mutation.payload.name === 'show_fps') {
+        showFps.value = mutation.payload.value
       }
     }
-  }
+  })
+})
+
+function openMenu() {
+  store.commit('SET_OPEN_MENU', true)
+}
+
+function backToSavepoint() {
+  store.commit('SET_BACK_TO_SAVEPOINT')
+}
+
+const savepointId = computed(() => store.state.level.savepointId)
 </script>

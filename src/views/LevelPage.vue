@@ -6,7 +6,7 @@
       <MenuLevel/>
       <Settings/>
 
-      <div id="loading_overlay" v-if="this.$store.state.level.loading">
+      <div id="loading_overlay" v-if="store.state.level.loading">
         <div id="loading_overlay_text">{{ $t("message.loading") }}...</div>
       </div>
 
@@ -59,46 +59,31 @@
 }
 </style>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
 import Game from '@/models/Game'
 import TopBar from '@/views/gui/topbar/TopBar.vue'
 import LevelPreview from '@/views/LevelPreview.vue'
 import MenuLevel from '@/views/gui/MenuLevel.vue'
 import Settings from '@/views/gui/Settings.vue'
-import { mapGetters } from 'vuex'
 import MobileJoystick from "@/views/gui/MobileJoystick.vue"
+import { computed, nextTick, onMounted, watch } from 'vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
 
-export default defineComponent({
-  name: 'game-level',
-  mounted () {
-    this.$nextTick(() => {
-      const game = new Game()
-      game.init()
-    })
-  },
-  computed: {
-    ...mapGetters([
-      'finish'
-    ]),
-    isMobile() {
-      return this.$store.state.isMobile
-    }
-  },
-  watch: {
-    finish(value) {
-      if (value) {
-        this.$store.commit('SET_PAGE', 'FinishPage')
-      }
-    }
-  },
-  components: {
-    MobileJoystick,
-    TopBar,
-    LevelPreview,
-    MenuLevel,
-    Settings
+onMounted(() => {
+  nextTick(() => {
+    const game = new Game()
+    game.init()
+  })
+})
+
+const finish = computed(() => store.getters.finish)
+const isMobile = computed(() => store.state.isMobile)
+
+watch(finish, (value) => {
+  if (value) {
+    store.commit('SET_PAGE', 'FinishPage')
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div id="level_preview" v-show="!this.$store.state.level.loading && this.show">
+  <div id="level_preview" v-show="!store.state.level.loading && show">
     <div class="container">
       <div class="text">
         {{ $t("message.are_you_ready") }}
@@ -36,21 +36,15 @@
   }
 </style>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
-export default defineComponent({
-  name: 'LevelPreview',
-  methods: {
-    play () {
-      this.$store.commit('SET_PLAY')
-      this.show = false
-    }
-  },
-  data () {
-    return {
-      show: true
-    }
-  }
-})
+const store = useStore()
+const show = ref(true)
+
+function play() {
+  store.commit('SET_PLAY')
+  show.value = false
+}
 </script>

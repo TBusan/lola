@@ -84,56 +84,50 @@
     }
 </style>
 
-<script>
-  import { defineComponent } from 'vue'
-  import * as nipples from 'nipplejs'
-  import ControllerJoystick from '@/models/playerSelf/ControllerJoystick'
+<script setup>
+import * as nipples from 'nipplejs'
+import ControllerJoystick from '@/models/playerSelf/ControllerJoystick'
+import { nextTick, onMounted } from 'vue'
 
-  export default defineComponent({
-    name: 'MobileJoystick',
-    mounted () {
-      this.$nextTick(() => {
-        setTimeout(() => {
-          this.initJoystick()
+onMounted(() => {
+  nextTick(() => {
+    setTimeout(() => {
+      initJoystick()
+    }, 3000)
+  })
+})
 
-        }, 3000)
-      })
-    },
-    methods: {
-      initJoystick() {
-        const controller = new ControllerJoystick()
+function initJoystick() {
+  const controller = new ControllerJoystick()
 
-        this.$nextTick(() => {
-          const optionsMove = controller.getOptionsMove()
-          let joystickMove = nipples.create(optionsMove)
+  nextTick(() => {
+    const optionsMove = controller.getOptionsMove()
+    let joystickMove = nipples.create(optionsMove)
 
+    initMove(joystickMove, controller)
 
-          this.initMove(joystickMove, controller)
+    window.addEventListener('orientationchange', () => {
+      joystickMove.destroy()
+      joystickMove = nipples.create(optionsMove)
 
-          window.addEventListener('orientationchange', () => {
-            joystickMove.destroy()
-            joystickMove = nipples.create(optionsMove)
+      initMove(joystickMove, controller)
+    }, false)
 
-            this.initMove(joystickMove, controller)
-          }, false)
+    controller.setJumpButton()
+  })
+}
 
-          controller.setJumpButton()
-        })
-      },
-      initMove(joystick, controller) {
-        joystick.on('move', (evt, data) => {
-          if (typeof data.direction == 'undefined') {
-            return false
-          }
-
-          controller.setForward(data)
-        })
-
-        joystick.on('end', () => {
-          controller.moveEnd()
-        })
-      }
+function initMove(joystick, controller) {
+  joystick.on('move', (evt, data) => {
+    if (typeof data.direction == 'undefined') {
+      return false
     }
+
+    controller.setForward(data)
   })
 
+  joystick.on('end', () => {
+    controller.moveEnd()
+  })
+}
 </script>

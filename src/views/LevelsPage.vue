@@ -25,31 +25,29 @@
   </div>
 </template>
 
-<script>
-  import {defineComponent} from "vue"
-  import '../styles/levels_page.sass'
+<script setup>
+import '../styles/levels_page.sass'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
-  export default defineComponent({
-    mounted() {
-      fetch('./resources/graphics/levels.json')
-          .then((response) => response.json())
-          .then((json) => {
-            this.$store.commit('SET_LEVELS', json.levels)
-      })
-    },
-    methods: {
-      setLevel(number) {
-        this.$store.commit('SET_LEVEL', number)
-        this.$store.commit('SET_PAGE', 'LevelPage')
-      },
-      back() {
-        this.$store.commit('SET_PAGE', 'MainPage')
-      }
-    },
-    computed: {
-      levels() {
-        return this.$store.state.levels
-      }
-    }
-  })
+const store = useStore()
+
+onMounted(() => {
+  fetch('./resources/graphics/levels.json')
+    .then((response) => response.json())
+    .then((json) => {
+      store.commit('SET_LEVELS', json.levels)
+    })
+})
+
+function setLevel(number) {
+  store.commit('SET_LEVEL', number)
+  store.commit('SET_PAGE', 'LevelPage')
+}
+
+function back() {
+  store.commit('SET_PAGE', 'MainPage')
+}
+
+const levels = computed(() => store.state.levels)
 </script>

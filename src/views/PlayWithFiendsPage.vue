@@ -15,7 +15,7 @@
           <div v-if="isCreate">
             <div>
               <div class="label">send to friends</div>
-              {{  this.password }} <button @click="copyPassword">copy</button>
+              {{ password }} <button @click="copyPassword">copy</button>
             </div>
           </div>
 
@@ -40,46 +40,45 @@
   </div>
 </template>
 
-<script>
-import {defineComponent} from "vue"
+<script setup>
 import '../styles/play_with_friends_page.sass'
 import { Helpers } from '@/models/Helpers'
 import copy from 'copy-text-to-clipboard'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
 
-export default defineComponent({
-  methods: {
-    back() {
-      this.$store.commit('SET_PAGE', 'MainPage')
-    },
-    toggleIsCreate() {
-      this.isCreate = true
-      this.isJoin = false
-    },
-    toggleIsJoin() {
-      this.isCreate = false
-      this.isJoin = true
-    },
-    copyPassword() {
-      copy(this.password)
-    },
-    play() {
-      if (this.isCreate) {
-        this.$store.commit('SET_PASSWORD', this.password)
-      } else {
-        this.$store.commit('SET_PASSWORD', this.passwordFriend)
-      }
+const store = useStore()
+const lengthPassword = 11
+const isCreate = ref(true)
+const isJoin = ref(false)
+const password = Helpers.generateRandomToken(10)
+const passwordFriend = ref(null)
 
-      this.$store.commit('SET_PAGE', 'LevelsPage')
-    },
-  },
-  data() {
-    return {
-      lengthPassword: 11,
-      isCreate: true,
-      isJoin: false,
-      password: Helpers.generateRandomToken(10),
-      passwordFriend: null
-    }
+function back() {
+  store.commit('SET_PAGE', 'MainPage')
+}
+
+function toggleIsCreate() {
+  isCreate.value = true
+  isJoin.value = false
+}
+
+function toggleIsJoin() {
+  isCreate.value = false
+  isJoin.value = true
+}
+
+function copyPassword() {
+  copy(password)
+}
+
+function play() {
+  if (isCreate.value) {
+    store.commit('SET_PASSWORD', password)
+  } else {
+    store.commit('SET_PASSWORD', passwordFriend.value)
   }
-})
+
+  store.commit('SET_PAGE', 'LevelsPage')
+}
 </script>
