@@ -1,4 +1,4 @@
-import { Mesh, Vector3, ParticleSystem, Texture, Color4 } from '@babylonjs/core'
+import { Mesh, Vector3, ParticleSystem, Texture, Color4, AbstractMesh } from '@babylonjs/core'
 import store from '@/store/store'
 
 export default class Points {
@@ -11,7 +11,8 @@ export default class Points {
 
   constructor (playerId: string) {
     this.meshFoot = globalThis.scene.getMeshById('playerFoot_' + playerId) as Mesh
-    this.points = globalThis.scene.getMeshesByTags('point_energy')
+    const meshes = globalThis.scene.getMeshesByTags('point_energy')
+    this.points = meshes.filter((mesh): mesh is Mesh => mesh instanceof Mesh)
     this.playerId = playerId
     this.particleLifeTime = 0
 

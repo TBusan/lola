@@ -1,4 +1,4 @@
-import { Engine, Mesh } from '@babylonjs/core'
+import { Engine, Mesh, AbstractMesh } from '@babylonjs/core'
 import { isNumber } from 'lodash'
 
 export default class BlendModes {
@@ -18,9 +18,10 @@ export default class BlendModes {
     ]
 
     alphaTags.forEach(tag => {
-      const meshes = globalThis.scene.getMeshesByTags(tag.toLowerCase())
+      const allMeshes = globalThis.scene.getMeshesByTags(tag.toLowerCase())
+      const meshes = allMeshes.filter((mesh): mesh is Mesh => mesh instanceof Mesh)
 
-      meshes.forEach((mesh: Mesh) => {
+      meshes.forEach(mesh => {
         if (mesh.material) {
           const type = Engine[tag]
 

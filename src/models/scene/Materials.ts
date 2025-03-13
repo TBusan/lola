@@ -9,9 +9,10 @@ export default class Materials {
     ]
 
     alphaTags.forEach(tag => {
-      const meshes = globalThis.scene.getMeshesByTags(tag.toLowerCase())
+      const allMeshes = globalThis.scene.getMeshesByTags(tag.toLowerCase())
+      const meshes = allMeshes.filter((mesh): mesh is Mesh => mesh instanceof Mesh)
 
-      meshes.forEach((mesh: Mesh) => {
+      meshes.forEach(mesh => {
         if (tag === 'material_glass') {
           const glassMaterial = new PBRMaterial('glass_material', scene);
           glassMaterial.metallic = 0
@@ -37,6 +38,10 @@ export default class Materials {
 
       const tagMaterial = tags.find((tag: string) => tag.indexOf('customMaterial') !== -1)
 
+      if (!tagMaterial) {
+        continue
+      }
+
       const materialName = tagMaterial.split('_')[1]
 
       let nodeMaterial = materials.find(materialItem => materialItem.name === materialName) as null | NodeMaterial
@@ -46,9 +51,10 @@ export default class Materials {
         materials.push(nodeMaterial)
       }
 
-       mesh.material?.dispose()
-       mesh.material = nodeMaterial
-
+      if (mesh instanceof Mesh) {
+        mesh.material?.dispose()
+        mesh.material = nodeMaterial
+      }
     }
 
     return null

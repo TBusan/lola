@@ -1,4 +1,4 @@
-import {Mesh} from "@babylonjs/core"
+import {Mesh, AbstractMesh} from "@babylonjs/core"
 import store from "@/store/store"
 import storeVuex from '@/store/vuex'
 import RayCastFootFour from "@/models/сommon/rayCast/RayCastFootFour"
@@ -10,7 +10,8 @@ export default class Savepoint {
         const meshFoot = globalThis.scene.getMeshById('playerFoot_' + player.id) as Mesh
         let lastId = 'none'
 
-        const points = scene.getMeshesByTags('savepoint')
+        const allPoints = scene.getMeshesByTags('savepoint')
+        const points = allPoints.filter((mesh): mesh is Mesh => mesh instanceof Mesh)
 
         setInterval(() => {
             const rayCast = new RayCastFootFour(meshFoot)
@@ -33,7 +34,7 @@ export default class Savepoint {
 
         storeVuex.subscribe(mutation => {
             if (mutation.type == 'SET_BACK_TO_SAVEPOINT') {
-                const point = points.find((point: Mesh) => point.id === lastId)
+                const point = points.find(point => point.id === lastId)
 
                 if (point) {
                     meshFoot.position.x = point.position.x
