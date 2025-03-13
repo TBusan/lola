@@ -17,7 +17,7 @@
           <div @click="play" class="button">
             <span class="label">{{ $t("message.play") }}</span>
             <span class="icon">
-                <span></span>
+              <span></span>
             </span>
             <span class="label_font">{{ $t("message.play") }}</span>
           </div>
@@ -26,7 +26,7 @@
           <div @click="setCurrenPage('PlayWithFiendsPage')" class="button">
             <span class="label">{{ $t("message.play_with_friends") }}</span>
             <span class="icon">
-                <span></span>
+              <span></span>
             </span>
             <span class="label_font">{{ $t("message.play_with_friends") }}</span>
           </div>

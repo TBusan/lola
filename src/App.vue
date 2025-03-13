@@ -1,5 +1,5 @@
 <template>
-  <component :is="currentPage"></component>
+  <component :is="currentPageComponent"></component>
 </template>
 
 <script setup>
@@ -12,5 +12,17 @@ import FinishPage from "@/views/FinishPage.vue"
 import { useStore } from 'vuex'
 
 const store = useStore()
-const currentPage = computed(() => store.state.currentPage)
+
+const pageComponents = {
+  'LevelsPage': LevelsPage,
+  'PlayWithFiendsPage': PlayWithFiendsPage,
+  'LevelPage': LevelPage,
+  'MainPage': MainPage,
+  'FinishPage': FinishPage
+}
+
+const currentPageComponent = computed(() => {
+  const pageName = store.state.currentPage
+  return pageComponents[pageName] || MainPage // 如果找不到对应组件，默认返回 MainPage
+})
 </script>

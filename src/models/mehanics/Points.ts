@@ -7,7 +7,7 @@ export default class Points {
   playerId: string
   particleSystem?: ParticleSystem
   particleLifeTime: number
-  removePointIntervalId?: number
+  removePointIntervalId?: NodeJS.Timeout
 
   constructor (playerId: string) {
     this.meshFoot = globalThis.scene.getMeshById('playerFoot_' + playerId) as Mesh
